@@ -1,0 +1,128 @@
+/* --- style.css --- */
+
+/* Reset & Body */
+body {
+    background-color: #f4f7f6;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Header */
+.header {
+    background-color: #E10600; /* Merah khas F1 */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+/* Container Content */
+.container {
+    background-color: white;
+    padding: 30px;
+    margin: 30px auto;
+    width: 80%;
+    max-width: 900px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.container h2 {
+    color: #15151E;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+/* Tombol (Buttons) */
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #15151E;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #E10600;
+}
+
+.btn-tambah {
+    margin-bottom: 15px;
+}
+
+.btn-edit {
+    background-color: #f39c12;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.btn-hapus {
+    background-color: #e74c3c;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+/* Tabel */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.table th, .table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #15151E;
+    color: white;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Agar width 100% tidak over */
+    font-family: inherit;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #E10600;
+    outline: none;
+}
