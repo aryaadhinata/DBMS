@@ -1,100 +1,119 @@
 <?php
-$peminjaman = [
-    [
-        "id_peminjaman" => 301,
-        "nama_peminjam" => "Padma Patil",
-        "judul_buku" => "Temporal Anomalies in Magical Timekeeping Devices",
-        "tanggal_pinjam" => "2026-03-28"
-    ],
-    [
-        "id_peminjaman" => 302,
-        "nama_peminjam" => "Blaise Zabini",
-        "judul_buku" => "Obscure Defensive Runes for Nocturnal Creatures",
-        "tanggal_pinjam" => "2026-03-30"
-    ],
-    [
-        "id_peminjaman" => 303,
-        "nama_peminjam" => "Terry Boot",
-        "judul_buku" => "Transfiguration of Semi-Sentient Objects Vol. VII",
-        "tanggal_pinjam" => "2026-04-01"
-    ],
-    [
-        "id_peminjaman" => 304,
-        "nama_peminjam" => "Susan Bones",
-        "judul_buku" => "Whispers of the Forbidden Forest: A Field Study",
-        "tanggal_pinjam" => "2026-04-02"
-    ],
-    [
-        "id_peminjaman" => 305,
-        "nama_peminjam" => "Anthony Goldstein",
-        "judul_buku" => "Potion Stabilization in Uncontrolled Environments",
-        "tanggal_pinjam" => "2026-04-03"
-    ],
-    [
-        "id_peminjaman" => 306,
-        "nama_peminjam" => "Cho Chang",
-        "judul_buku" => "Invisible Ink and Hidden Messages in Wizard Communication",
-        "tanggal_pinjam" => "2026-04-06"
-    ],
-    [
-        "id_peminjaman" => 307,
-        "nama_peminjam" => "Neville Longbottom",
-        "judul_buku" => "Magical Herbology: Rare Plants of the Scottish Highlands",
-        "tanggal_pinjam" => "2026-04-07"
-    ]
-];
+include 'koneksi.php';
+
+$query = "
+SELECT p.id_peminjaman, p.nama_peminjam, b.judul_buku, p.tgl_pinjam
+FROM peminjaman p
+INNER JOIN buku b ON p.id_buku = b.id_buku
+";
+
+$result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="logo.png" type="image/png">
     <title>Perpustakaan Hogwarts - Peminjaman</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- HEADER -->
-<header>
-    <h1>Perpustakaan Hogwarts</h1>
-    <h2>Halaman Data Peminjaman</h2>
-    <nav>
-        <ul>
-            <li><a href="index.php">Data Buku</a></li>
-            <li><a href="peminjaman.php" class="active">Data Peminjaman</a></li>
-        </ul>
-    </nav>
-</header>
+    <header>
+        <h1>Perpustakaan Hogwarts</h1>
+        <h2>Halaman Data Peminjaman</h2>
+        <nav>
+            <ul>
+                <li><a href="index.php">Data Buku</a></li>
+                <li><a href="peminjaman.php" class="active">Data Peminjaman</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<!-- CONTENT -->
-<main>
-    <h3>Data Peminjaman Buku</h3>
-    <table>
-        <tr>
-            <th>No</th>
-            <th>ID</th>
-            <th>Nama Peminjam</th>
-            <th>Judul Buku</th>
-            <th>Tanggal</th>
-        </tr>
+    <main>
 
-        <?php $i = 1;?>
-        <?php foreach ($peminjaman as $p): ?>
-        <tr>
-            <td><?= $i++;?></td>
-            <td><?= $p["id_peminjaman"]; ?></td>
-            <td><?= $p["nama_peminjam"]; ?></td>
-            <td><?= $p["judul_buku"]; ?></td>
-            <td><?= $p["tanggal_pinjam"]; ?></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
-</main>
+        <table>
+            <tr>
+                <th>No</th>
+                <th>ID</th>
+                <th>Nama Peminjam</th>
+                <th>Judul Buku</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+            </tr>
 
-<!-- FOOTER -->
-<footer>
-    <p>© 2026 - Dibuat oleh Arya Dhinata</p>
-</footer>
+            <?php $i = 1; ?>
+            <?php while ($p = mysqli_fetch_assoc($result)): ?>
+            <tr>
+                <td><?= $i++; ?></td>
+                <td><?= $p["id_peminjaman"]; ?></td>
+                <td><?= $p["nama_peminjam"]; ?></td>
+                <td><?= $p["judul_buku"]; ?></td>
+                <td><?= $p["tgl_pinjam"]; ?></td>
+                <td>
+                    <a href="editPeminjam.php?id=<?= $p['id_peminjaman']; ?>" class="btn btn-edit">
+                        Edit
+                    </a>
+
+                    <a href="#" class="btn btn-hapus"
+                        onclick="openModal('hapus_peminjaman.php?id=<?= $p['id_peminjaman']; ?>'); return false;">
+                        Hapus
+                    </a>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+        </table>
+        <a href="tambahPeminjam.php" class="btn btn-tambah">+ Tambah Peminjaman</a>
+    </main>
+
+    <footer>
+        <p>© 2026 - Dibuat oleh Arya Dhinata</p>
+    </footer>
+
+    <div id="modalConfirm" class="modal">
+        <div class="modal-box">
+            <h3>Konfirmasi Hapus</h3>
+            <p>Apakah kamu yakin ingin menghapus data ini?</p>
+
+            <div class="modal-actions">
+                <button onclick="closeModal()" class="btn">Batal</button>
+                <a id="confirmDelete" class="btn btn-danger">Hapus</a>
+            </div>
+        </div>
+    </div>
+    <div id="toast" class="toast"></div>
+
+    <script>
+        function openModal(url) {
+            document.getElementById("modalConfirm").style.display = "flex";
+            document.getElementById("confirmDelete").href = url;
+        }
+
+        function closeModal() {
+            document.getElementById("modalConfirm").style.display = "none";
+        }
+        window.addEventListener('load', function () {
+            const msg = localStorage.getItem('toast');
+
+            if (!msg) return;
+
+            const toast = document.getElementById("toast");
+            if (!toast) return;
+
+            toast.textContent = msg;
+            toast.classList.add("show");
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+
+            localStorage.removeItem('toast');
+        });
+    </script>
 
 </body>
+
 </html>
