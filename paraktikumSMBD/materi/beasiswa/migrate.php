@@ -7,7 +7,6 @@ $conn->select_db("db_beasiswa");
 echo "Database siap!<br>";
 
 $conn->query("SET FOREIGN_KEY_CHECKS = 0");
-echo "foreign key matiin bang";
 
 function eksekusi($file, $conn) {
     $query = file_get_contents("C:\laragon\www\paraktikumSMBD\materi\beasiswa\Database/" . $file);
@@ -33,3 +32,4 @@ $sql = "CREATE TABLE IF NOT EXISTS pendaftar (
 )";
 $conn->query($sql);
 echo "Tabel Pendaftar siap! <a href='index.php'>Cek Form</a>";
+?>
